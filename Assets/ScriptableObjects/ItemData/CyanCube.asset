@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54519bc68d31a4656ae63347db23a811, type: 3}
+  m_Name: CyanCube
+  m_EditorClassIdentifier: 
+  itemName: CyanCube
+  itemPrefab: {fileID: 2407676759319986051, guid: 7fa62aa31567b4d218d6a16a26edfa85,
+    type: 3}
+  itemScore: 553
