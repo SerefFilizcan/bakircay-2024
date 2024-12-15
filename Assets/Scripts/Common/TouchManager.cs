@@ -13,6 +13,7 @@ namespace Common
     public class TouchManager : MonoBehaviour
     {
         private static TouchManager _instance;
+
         public static TouchManager Instance
         {
             get
@@ -21,10 +22,12 @@ namespace Common
                 {
                     _instance = FindObjectOfType<TouchManager>();
                 }
+
                 if (_instance == null)
                 {
-                    Debug.LogError("TouchManager not found in scene");
+                    Debug.LogWarning("TouchManager not found in scene");
                 }
+
                 return _instance;
             }
         }
@@ -60,17 +63,20 @@ namespace Common
                 {
                     TouchBegan(Input.mousePosition);
                     return;
-                };
+                }
+
+                ;
 
                 TouchMoved(Input.mousePosition);
-
             }
             else if (Input.GetMouseButtonUp(0))
             {
                 if (_currentTouchData.hasValue == false)
                 {
                     return;
-                };
+                }
+
+                ;
                 TouchEnded(Input.mousePosition);
             }
         }

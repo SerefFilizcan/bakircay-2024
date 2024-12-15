@@ -31,12 +31,11 @@ namespace Midterm
 
         private void OnDestroy()
         {
-            if (TouchManager.Instance)
-            {
-                TouchManager.Instance.OnTouchBegan -= TouchBegan;
-                TouchManager.Instance.OnTouchMoved -= TouchMoved;
-                TouchManager.Instance.OnTouchEnded -= TouchEnded;
-            }
+            if (!TouchManager.Instance) 
+                return;
+            TouchManager.Instance.OnTouchBegan -= TouchBegan;
+            TouchManager.Instance.OnTouchMoved -= TouchMoved;
+            TouchManager.Instance.OnTouchEnded -= TouchEnded;
         }
 
         private void TouchBegan(TouchData touchData)
@@ -100,7 +99,8 @@ namespace Midterm
             position.z = Mathf.Clamp(position.z, transform.position.z - dragBorder.z * 0.5f,
                 transform.position.z + dragBorder.z * 0.5f);
 
-            draggedObject.transform.position = Vector3.Lerp(draggedObject.transform.position, position, Time.deltaTime * speed * speed);
+            draggedObject.transform.position = Vector3.Lerp(draggedObject.transform.position, position,
+                Time.deltaTime * speed * speed);
         }
 
 

@@ -20,54 +20,75 @@ namespace Match
             SpawnObjects();
         }
 
+        private void Update()
+        {
+            if (spawnedObjects.Count == 0)
+                return;
+
+            if (spawnedObjects.All(x => x.gameObject.activeSelf == false))
+            {
+                Debug.Log("All objects are inactive");
+                SpawnObjects();
+            }
+        }
+
         [ContextMenu("Spawn Objects")]
         private void SpawnObjects()
         {
-            spawnedObjects.ForEach(x => Destroy(x.gameObject));
-            spawnedObjects.Clear();
+            const int pairCount = 2;
+            ClearSpawnedObjects();
 
-            int maxTries = 100;
-            int currentTryCount = 0;
-            
-            var itemDatas = itemRepository.GetRandomItems(spawnCount);
-            if (itemDatas.Count == 0)
+            var itemData = itemRepository.GetRandomItems(spawnCount);
+            if (itemData.Count == 0)
             {
                 Debug.LogError("No items in the repository");
                 return;
             }
-            
+
             for (int i = 0; i < spawnCount; i++)
             {
-                Vector3 spawnPosition = transform.position + GetRandomPos();
-
-                if (spawnedObjects.Any(x => Vector3.Distance(x.position, spawnPosition) < spawnDistance))
+                // Spawn two items for each item in the repository
+                for (int j = 0; j < pairCount; j++)
                 {
-                    currentTryCount++;
-                    if (currentTryCount > maxTries)
-                    {
-                        Debug.LogWarning("Max tries reached");
-                    }
-                    else
-                    {
-                        i--;
-                        continue;
-                    }
-                } 
-                currentTryCount = 0;
-                
-                
-                
-                var itemPrefab = itemDatas[i].itemPrefab;
-                
-                var instance = Instantiate(itemPrefab, spawnPosition, Quaternion.identity);
-                var secondInstance = Instantiate(itemPrefab, spawnPosition + Vector3.up * spawnDistance, Quaternion.identity);
-               
-                instance.GetComponent<Item>().matchID = i;
-                secondInstance.GetComponent<Item>().matchID = i;
-                
-                spawnedObjects.Add(secondInstance.transform);
-                spawnedObjects.Add(instance.transform);
+                    Vector3 spawnPosition = GetValidSpawnPosition();
+
+                    var itemPrefab = itemData[i].itemPrefab;
+
+                    var instance = Instantiate(itemPrefab, spawnPosition, Quaternion.identity);
+
+                    instance.GetComponent<Item>().matchID = i;
+                    spawnedObjects.Add(instance.transform);
+                }
             }
+        }
+
+        private void ClearSpawnedObjects()
+        {
+            //wait for 2 seconds before destroying the objects, to prevent any ongoing operations
+            const float delay = 2f;
+            spawnedObjects.ForEach(x => Destroy(x.gameObject, delay));
+            spawnedObjects.Clear();
+        }
+
+        private Vector3 GetValidSpawnPosition()
+        {
+            Vector3 spawnPosition;
+            const int maxTries = 100;
+            int currentTryCount = 0;
+            bool isValid = false;
+            do
+            {
+                spawnPosition = transform.position + GetRandomPos();
+                currentTryCount++;
+                isValid = !spawnedObjects.Any(x => Vector3.Distance(x.position, spawnPosition) < spawnDistance);
+            } while (!isValid && currentTryCount <= maxTries);
+
+            if (currentTryCount > maxTries)
+            {
+                Debug.LogWarning("Max tries reached");
+            }
+
+            return spawnPosition;
         }
 
         private Vector3 GetRandomPos()
