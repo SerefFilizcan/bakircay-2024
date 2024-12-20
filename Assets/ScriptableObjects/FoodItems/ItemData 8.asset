@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Garlic
   itemPrefab: {fileID: 3523773261141167926, guid: 89ab252fd6df84bd5a399e3832e4e7fa,
     type: 3}
-  itemScore: 100
+  itemScore: 10

@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Apple
   itemPrefab: {fileID: 9087482749508403654, guid: 7e125452b14364e6f8093c0354874c03,
     type: 3}
-  itemScore: 100
+  itemScore: 200

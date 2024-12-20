@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Carrot
   itemPrefab: {fileID: 6243554528841278059, guid: fa55d38cd2fd64f2d8847aa1885b1a11,
     type: 3}
-  itemScore: 100
+  itemScore: 150

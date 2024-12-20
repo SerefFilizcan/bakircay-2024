@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Cake
   itemPrefab: {fileID: 8217412996019554899, guid: ca05c5814c279483eabd7931249d117a,
     type: 3}
-  itemScore: 100
+  itemScore: 400

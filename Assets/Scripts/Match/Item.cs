@@ -6,15 +6,16 @@ namespace Match
 {
     public class Item : MonoBehaviour
     {
+        
         public int matchID = -1;
-    
+
         public bool isDragged = false;
         public bool isPlaced = false;
-    
+        public ItemData itemData;
+
         public bool IsMatching(Item otherItem)
         {
-            return matchID == otherItem.matchID;
+            return this != otherItem && matchID == otherItem.matchID;
         }
-        
     }
 }

@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Banana
   itemPrefab: {fileID: 8584170054217165019, guid: 774f42b68ff80455ab5feee42bab7de0,
     type: 3}
-  itemScore: 100
+  itemScore: 300

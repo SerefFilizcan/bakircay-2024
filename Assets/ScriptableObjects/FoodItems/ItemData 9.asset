@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Grape
   itemPrefab: {fileID: 9077970429024767519, guid: 91c13fd2d5d6d46ebb8a965db00eb5a5,
     type: 3}
-  itemScore: 100
+  itemScore: 20

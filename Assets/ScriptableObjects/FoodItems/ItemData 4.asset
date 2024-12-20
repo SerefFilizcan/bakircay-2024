@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Candy
   itemPrefab: {fileID: 4952817131934114963, guid: 0df564e1b42214db3a33ff2e1a7365d5,
     type: 3}
-  itemScore: 100
+  itemScore: 50

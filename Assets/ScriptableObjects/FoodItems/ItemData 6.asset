@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Cherry
   itemPrefab: {fileID: 486940867227316177, guid: 67e99d0d429fc462fb47ff67ff8faccc,
     type: 3}
-  itemScore: 100
+  itemScore: 250

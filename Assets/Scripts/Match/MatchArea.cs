@@ -8,12 +8,13 @@ namespace Match
     {
         public GameObject currentObject;
 
-        private readonly string objectTag = "Moveable";
-        private Coroutine placeObjectCoroutine;
-
         [SerializeField] private Animator _animator;
         [SerializeField] private Transform _leftObjectPlacement;
         [SerializeField] private Transform _rightObjectPlacement;
+
+        private readonly string objectTag = "Moveable";
+        private Coroutine placeObjectCoroutine;
+        private Coroutine matchCoroutine;
 
         private readonly int _openLidHash = Animator.StringToHash("OpenLid");
         private readonly int _closeLidHash = Animator.StringToHash("CloseLid");
@@ -41,6 +42,11 @@ namespace Match
 
         private bool ChechMatch(Collider other)
         {
+            if (matchCoroutine != null)
+            {
+                return false;
+            }
+
             var currentItem = currentObject.GetComponent<Item>();
             var otherItem = other.attachedRigidbody.gameObject.GetComponent<Item>();
             if (!currentItem.IsMatching(otherItem))
@@ -52,7 +58,7 @@ namespace Match
             }
 
             other.attachedRigidbody.isKinematic = true;
-            StartCoroutine(MatchCoroutine(otherItem));
+            matchCoroutine = StartCoroutine(MatchCoroutine(otherItem));
             return true;
         }
 
@@ -108,12 +114,17 @@ namespace Match
             yield return new WaitForSeconds(closeDuration);
 
             //objeleri yok et  
-            currentObject = null;
+
             if (currentItem != null && otherItem != null)
             {
                 currentItem.gameObject.SetActive(false);
                 otherItem.gameObject.SetActive(false);
+
+                GameEvents.OnItemMatched?.Invoke(currentItem.itemData);
             }
+
+            currentObject = null;
+            matchCoroutine = null;
         }
 
         private void OnTriggerExit(Collider other)

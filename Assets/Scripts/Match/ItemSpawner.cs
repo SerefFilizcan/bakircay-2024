@@ -15,10 +15,8 @@ namespace Match
 
         public List<Transform> spawnedObjects = new List<Transform>();
 
-        private void Start()
-        {
-            SpawnObjects();
-        }
+        public int CurrentItemCount => spawnedObjects.Count(x => x.gameObject.activeSelf);
+        public int SpawnedItemCount => spawnCount * 2;
 
         private void Update()
         {
@@ -33,7 +31,7 @@ namespace Match
         }
 
         [ContextMenu("Spawn Objects")]
-        private void SpawnObjects()
+        public void SpawnObjects()
         {
             const int pairCount = 2;
             ClearSpawnedObjects();
@@ -56,7 +54,10 @@ namespace Match
 
                     var instance = Instantiate(itemPrefab, spawnPosition, Quaternion.identity);
 
-                    instance.GetComponent<Item>().matchID = i;
+                    var item = instance.GetComponent<Item>();
+                    item.itemData = itemData[i];
+                    item.matchID = i;
+                    
                     spawnedObjects.Add(instance.transform);
                 }
             }

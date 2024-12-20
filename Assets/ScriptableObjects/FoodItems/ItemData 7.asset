@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Egg
   itemPrefab: {fileID: 1027191187168397444, guid: 8a9ac00a46b6a4a8ea0275244c0de9fa,
     type: 3}
-  itemScore: 100
+  itemScore: 350
