@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Match
@@ -13,7 +13,6 @@ namespace Match
         [SerializeField] private Transform _rightObjectPlacement;
 
         private readonly string objectTag = "Moveable";
-        private Coroutine placeObjectCoroutine;
         private Coroutine matchCoroutine;
 
         private readonly int _openLidHash = Animator.StringToHash("OpenLid");
@@ -52,10 +51,6 @@ namespace Match
             if (!currentItem.IsMatching(otherItem))
                 return false;
 
-            if (placeObjectCoroutine != null)
-            {
-                StopCoroutine(placeObjectCoroutine);
-            }
 
             other.attachedRigidbody.isKinematic = true;
             matchCoroutine = StartCoroutine(MatchCoroutine(otherItem));
@@ -72,43 +67,30 @@ namespace Match
             var currentItem = currentObject.GetComponent<Item>();
 
             //iki objeyi de yerine yerleştir
-            otherItem.transform.position = _rightObjectPlacement.position;
-            otherItem.transform.rotation = _rightObjectPlacement.rotation;
+            DOTween.Kill(currentItem.transform, true);
+            DOTween.Kill(otherItem.transform, true);
+
+            otherItem.transform.DOMove(_rightObjectPlacement.position, openDuration);
+            otherItem.transform.DORotate(_rightObjectPlacement.rotation.eulerAngles, openDuration);
 
             //kapak açılma animasyonunu başlat
             _animator.SetTrigger(_openLidHash);
-
             yield return new WaitForSeconds(openDuration);
+
             //objeleri merkeze al, aşağıya doğru kaydır
 
-            float timer = 0f;
-            var currentPos = currentItem.transform.position;
-            var otherPos = otherItem.transform.position;
             Vector3 targetPos = (currentItem.transform.position + otherItem.transform.position) / 2f;
 
-            while (timer < objectMovementDuration)
-            {
-                currentItem.transform.position = Vector3.Lerp(currentPos, targetPos, timer / objectMovementDuration);
-                otherItem.transform.position = Vector3.Lerp(otherPos, targetPos, timer / objectMovementDuration);
-                timer += Time.deltaTime;
-                yield return null;
-            }
+            currentItem.transform.DOMove(targetPos, objectMovementDuration);
+            otherItem.transform.DOMove(targetPos, objectMovementDuration);
 
-            currentItem.transform.position = targetPos;
-            otherItem.transform.position = targetPos;
+            yield return new WaitForSeconds(objectMovementDuration);  
+             
+            targetPos = targetPos + Vector3.down * 2f; 
+            currentItem.transform.DOMove(targetPos, objectMovementDuration);
+            otherItem.transform.DOMove(targetPos, objectMovementDuration);
 
-            timer = 0f;
-            currentPos = targetPos;
-            targetPos = targetPos + Vector3.down * 2f;
-            while (timer < objectMovementDuration)
-            {
-                currentItem.transform.position = Vector3.Lerp(currentPos, targetPos, timer / objectMovementDuration);
-                otherItem.transform.position = Vector3.Lerp(currentPos, targetPos, timer / objectMovementDuration);
-                timer += Time.deltaTime;
-                yield return null;
-            }
-
-
+            yield return new WaitForSeconds(objectMovementDuration);
             //kapatma animasyonunu başlat
             _animator.SetTrigger(_closeLidHash);
             yield return new WaitForSeconds(closeDuration);
@@ -133,11 +115,7 @@ namespace Match
                 return;
             if (other.attachedRigidbody.gameObject == currentObject)
             {
-                if (placeObjectCoroutine != null)
-                {
-                    StopCoroutine(placeObjectCoroutine);
-                }
-
+                DOTween.Kill(currentObject.transform);
                 currentObject = null;
             }
         }
@@ -146,36 +124,12 @@ namespace Match
         {
             other.attachedRigidbody.isKinematic = true;
             currentObject = other.attachedRigidbody.gameObject;
-            if (placeObjectCoroutine != null)
-            {
-                StopCoroutine(placeObjectCoroutine);
-            }
 
-            placeObjectCoroutine = StartCoroutine(PlaceCurrentObject());
-        }
+            var tweenDuration = 1f;
 
-        private IEnumerator PlaceCurrentObject()
-        {
-            yield return null;
-            currentObject.transform.position = _leftObjectPlacement.position;
-            currentObject.transform.rotation = _leftObjectPlacement.rotation;
-
-            /*var pos = currentObject.transform.position;
-            var targetPos = transform.position;
-            float moveDuration = 3f;
-            float timer = 0;
-            while (timer < moveDuration)
-            {
-                if (currentObject == null)
-                    yield break;
-
-                currentObject.transform.position = Vector3.Lerp(pos, targetPos, timer / moveDuration);
-                currentObject.transform.Rotate(Vector3.up, 180f * Time.deltaTime);
-                timer += Time.deltaTime;
-                yield return null;
-            }
-
-            currentObject.transform.position = transform.position;*/
+            currentObject.transform
+                .DORotate(_leftObjectPlacement.rotation.eulerAngles, tweenDuration);
+            currentObject.transform.DOMove(_leftObjectPlacement.position, tweenDuration);
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Common;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Midterm
@@ -91,6 +92,7 @@ namespace Midterm
             if (Physics.Raycast(ray, out var hit, 1000f, raycastLayer))
             {
                 draggedObject = hit.collider.attachedRigidbody.gameObject;
+                DOTween.Kill(draggedObject.transform);
             }
         }
 
