@@ -65,6 +65,9 @@ namespace Match
 
             yield return null;
             var currentItem = currentObject.GetComponent<Item>();
+            
+            currentItem.SetCollidersActive(false);
+            otherItem.SetCollidersActive(false);
 
             //iki objeyi de yerine yerleştir
             DOTween.Kill(currentItem.transform, true);

@@ -18,6 +18,12 @@ namespace Match
         public int CurrentItemCount => spawnedObjects.Count(x => x.gameObject.activeSelf);
         public int SpawnedItemCount => spawnCount * 2;
 
+        public List<Item> GetItems()
+        {
+            return spawnedObjects.Where(x => x != null && x.gameObject.activeSelf).Select(x => x.GetComponent<Item>())
+                .ToList();
+        }
+
         private void Update()
         {
             if (spawnedObjects.Count == 0)
@@ -57,10 +63,12 @@ namespace Match
                     var item = instance.GetComponent<Item>();
                     item.itemData = itemData[i];
                     item.matchID = i;
-                    
+
                     spawnedObjects.Add(instance.transform);
                 }
             }
+
+            GameEvents.OnItemsSpawned?.Invoke();
         }
 
         private void ClearSpawnedObjects()

@@ -50,5 +50,5 @@ MonoBehaviour:
     deUnityExtendedEnabled: 0
     epoOutlineEnabled: 0
   createASMDEF: 0
-  showPlayingTweens: 0
-  showPausedTweens: 0
+  showPlayingTweens: 1
+  showPausedTweens: 1

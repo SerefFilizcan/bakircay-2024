@@ -23,19 +23,24 @@ namespace Match.View
         {
             _itemSpawner = itemSpawner;
             _score = 0;
-
-            SetScoreUI();
-            objectFillImage.fillAmount = 0;
-            windSkillButton.interactable = true;
-
+            SetInitialValues();
             GameEvents.OnItemMatched += OnItemMatched;
+            GameEvents.OnItemsSpawned += SetInitialValues;
         }
+
 
         private void OnDestroy()
         {
             GameEvents.OnItemMatched -= OnItemMatched;
+            GameEvents.OnItemsSpawned -= SetInitialValues;
         }
 
+        private void SetInitialValues()
+        {
+            SetScoreUI();
+            objectFillImage.fillAmount = 0;
+            windSkillButton.interactable = true;
+        }
 
         private void OnItemMatched(ItemData data)
         {
@@ -60,6 +65,8 @@ namespace Match.View
         public void OnWindSkillButtonClick()
         {
             windSkillButton.interactable = false;
+
+            GameEvents.OnWindSkillUsed?.Invoke();
         }
     }
 }
