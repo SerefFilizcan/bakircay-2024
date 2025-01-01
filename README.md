@@ -45,23 +45,9 @@ In the midterm phase, students will:
   - Additional creative gameplay features, visual polish, or UI enhancements beyond midterm requirements. The bonus points are optional and awarded for extra effort, such as adding subtle effects, animations, or aesthetic improvements.
 
 --- 
+## 📢 Final and Make-up Exams Announcement
 
-## Final Project (requirements are subject to change)
-In the final phase, students will:
-
-1. **Game Enhancements:**
-   - **Paired Objects:** Add paired objects to the game area.
-   - **Matching Mechanics:** Enable matching mechanics within the placement area.
-   - **Score Display:** Display the score in the UI to reflect successful matches.
-
-2. **Requirements:**
-   - **Pairing and Matching Logic:** Correct implementation of pairing and matching logic.
-   - **Score UI:** Functional UI displaying the player's score.
-
-**Bonus (Optional):**	
-- Additional creative gameplay features, visual polish, or UI enhancements beyond final requirements. The bonus points are optional and awarded for extra effort, such as adding subtle effects, animations, or aesthetic improvements.
-
----
+[Click here](https://github.com/SerefFilizcan/bakircay-2024/discussions/6) to view the full announcement on GitHub Discussions.
 
 ## Example Game Preview
 
